@@ -13,7 +13,9 @@ RUN yum -y install git
 
 RUN yum -y install curl
 
-RUN yum -y install openssl-devel
+RUN yum -y install openssl openssl-devel
+
+RUN yum -y install expat-devel
 
 RUN curl https://dl.google.com/go/go${golang_version}.linux-amd64.tar.gz -o /go${golang_version}.linux-amd64.tar.gz
 
