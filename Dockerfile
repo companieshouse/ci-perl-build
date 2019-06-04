@@ -43,9 +43,9 @@ RUN echo 'eval "$(plenv init -)"' >> ~/.bashrc
 
 ENV PATH=/usr/local/go/bin:$PATH
 
-RUN go get github.com/ian-kent/gopan/getpan
+RUN go get github.com/companieshouse/gopan/getpan
 
-RUN go install github.com/ian-kent/gopan/getpan
+RUN go install github.com/companieshouse/gopan/getpan
 
 ENV PATH=/root/go/bin:$PATH
 
