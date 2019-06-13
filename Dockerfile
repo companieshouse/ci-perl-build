@@ -61,3 +61,5 @@ RUN ln -s /root/.plenv/shims/perl${perl_version} /opt/plenv/versions/${perl_vers
 
 RUN bash -c "PERL_CPANM_OPT='--notest' PLENV_INSTALL_CPANM=' ' ${plenv_root}/bin/plenv install-cpanm"
 
+RUN unlink /etc/localtime && ln -s /usr/share/zoneinfo/Europe/London /etc/localtime
+
