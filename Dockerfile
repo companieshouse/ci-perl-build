@@ -7,7 +7,17 @@ ARG plenv_perlbuild_version=1.13
 ARG perl_version=5.18.2
 ARG perl_build_args=-Dusethreads
 
-ARG golang_version=1.10
+ARG gopan_version=0.10
+
+ARG AWS_ACCESS_KEY_ID
+ARG AWS_SECRET_ACCESS_KEY
+
+COPY get-pip.py /get-pip.py
+
+RUN python /get-pip.py
+RUN pip install boto
+RUN pip install awscli
+RUN rm -rf /root/.cache/pip
 
 RUN yum -y install git
 
@@ -17,11 +27,14 @@ RUN yum -y install openssl openssl-devel
 
 RUN yum -y install expat-devel
 
-RUN curl https://dl.google.com/go/go${golang_version}.linux-amd64.tar.gz -o /go${golang_version}.linux-amd64.tar.gz
-
-RUN tar -C /usr/local -xzf /go${golang_version}.linux-amd64.tar.gz
-
 RUN yum -y install "@Development tools"
+
+RUN yum clean all
+RUN curl -L https://github.com/companieshouse/gopan/releases/download/${gopan_version}/gopan-${gopan_version}-linux_amd64.tar.gz -o /gopan-${gopan_version}-linux_amd64.tar.gz
+
+RUN tar -C /usr/local/bin -xzf /gopan-${gopan_version}-linux_amd64.tar.gz
+
+RUN rm -f /gopan-${gopan_version}-linux_amd64.tar.gz
 
 RUN git clone https://github.com/tokuhirom/plenv.git ${plenv_root}
 
@@ -40,14 +53,6 @@ RUN plenv global ${perl_version}
 RUN plenv rehash
 
 RUN echo 'eval "$(plenv init -)"' >> ~/.bashrc
-
-ENV PATH=/usr/local/go/bin:$PATH
-
-RUN go get github.com/companieshouse/gopan/getpan
-
-RUN go install github.com/companieshouse/gopan/getpan
-
-ENV PATH=/root/go/bin:$PATH
 
 RUN bash -c "PERL_CPANM_OPT='--notest' PLENV_INSTALL_CPANM=' ' ${plenv_root}/bin/plenv install-cpanm"
 
