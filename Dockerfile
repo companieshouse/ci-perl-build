@@ -55,5 +55,9 @@ RUN plenv rehash
 
 RUN echo 'eval "$(plenv init -)"' >> ~/.bashrc
 
+RUN mkdir -p /opt/plenv/versions/${perl_version}/bin
+
+RUN ln -s /root/.plenv/shims/perl${perl_version} /opt/plenv/versions/${perl_version}/bin/perl${perl_version}
+
 RUN bash -c "PERL_CPANM_OPT='--notest' PLENV_INSTALL_CPANM=' ' ${plenv_root}/bin/plenv install-cpanm"
 
