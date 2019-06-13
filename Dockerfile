@@ -30,6 +30,7 @@ RUN yum -y install expat-devel
 RUN yum -y install "@Development tools"
 
 RUN yum clean all
+
 RUN curl -L https://github.com/companieshouse/gopan/releases/download/${gopan_version}/gopan-${gopan_version}-linux_amd64.tar.gz -o /gopan-${gopan_version}-linux_amd64.tar.gz
 
 RUN tar -C /usr/local/bin -xzf /gopan-${gopan_version}-linux_amd64.tar.gz
