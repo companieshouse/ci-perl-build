@@ -7,7 +7,8 @@ ARG plenv_perlbuild_version=1.13
 ARG perl_version=5.18.2
 ARG perl_build_args=-Dusethreads
 
-ARG gopan_version=0.10
+ARG gopan_version=0.12
+ARG gopan_tag_version=v0.12
 
 ARG AWS_ACCESS_KEY_ID
 ARG AWS_SECRET_ACCESS_KEY
@@ -31,7 +32,7 @@ RUN yum -y install "@Development tools"
 
 RUN yum clean all
 
-RUN curl -L https://github.com/companieshouse/gopan/releases/download/${gopan_version}/gopan-${gopan_version}-linux_amd64.tar.gz -o /gopan-${gopan_version}-linux_amd64.tar.gz
+RUN curl -L https://github.com/companieshouse/gopan/releases/download/${gopan_tag_version}/gopan-${gopan_version}-linux_amd64.tar.gz -o /gopan-${gopan_version}-linux_amd64.tar.gz
 
 RUN tar -C /usr/local/bin -xzf /gopan-${gopan_version}-linux_amd64.tar.gz
 
