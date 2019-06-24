@@ -1,4 +1,4 @@
-FROM centos:7.6.1810
+FROM centos:centos6.6
 
 ARG plenv_root=/root/.plenv
 ARG plenv_version=2.2.0
@@ -13,16 +13,28 @@ ARG gopan_tag_version=v0.12
 ARG AWS_ACCESS_KEY_ID
 ARG AWS_SECRET_ACCESS_KEY
 
-COPY get-pip.py /get-pip.py
+# Enable yum to function correctly with Overlayfs backend
+RUN yum install -y yum-plugin-ovl
 
-RUN python /get-pip.py
+# Update CA certificates for curl to function with SSL
+RUN yum -y update ca-certificates nss curl
+
+# Add EPEL repository to make python-pip available
+RUN yum -y install epel-release
+
+# Install pip as a prerequisite to installing awscli
+RUN yum -y install python-pip
+
 RUN pip install boto
+
 RUN pip install awscli
+
+# Cleanup pip cache
 RUN rm -rf /root/.cache/pip
 
 RUN yum -y install git
 
-RUN yum -y install curl
+RUN yum -y install tar
 
 RUN yum -y install openssl openssl-devel
 
@@ -62,5 +74,6 @@ RUN ln -s /root/.plenv/shims/perl${perl_version} /opt/plenv/versions/${perl_vers
 
 RUN bash -c "PERL_CPANM_OPT='--notest' PLENV_INSTALL_CPANM=' ' ${plenv_root}/bin/plenv install-cpanm"
 
+# Set system timezone
 RUN unlink /etc/localtime && ln -s /usr/share/zoneinfo/Europe/London /etc/localtime
 
