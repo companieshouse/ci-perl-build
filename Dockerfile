@@ -33,7 +33,7 @@ ADD https://d1vvhvl2y92vvt.cloudfront.net/awscli-exe-linux-x86_64.zip.sig /root/
 RUN gpg --import /root/aws-cli-team.pub
 RUN gpg --verify /root/aws-cli.zip.sig /root/aws-cli.zip
 
-# Install AWS CLI 2
+# Install AWS CLI
 RUN unzip /root/aws-cli.zip -d /root && \
     /root/aws/install
 
