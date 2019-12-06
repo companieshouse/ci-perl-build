@@ -13,14 +13,28 @@ ARG gopan_tag_version=v${gopan_version}
 ARG AWS_ACCESS_KEY_ID
 ARG AWS_SECRET_ACCESS_KEY
 
-# Enable yum to function correctly with Overlayfs backend
-RUN yum install -y yum-plugin-ovl
-
-# Update CA certificates for SSL verification
-RUN yum -y update ca-certificates nss
-
-# Install AWS CLI prerequisites
-RUN yum -y install unzip
+# Install required package dependencies:
+#  - yum-plugin-ovl - ensure yum functions correctly with Overlayfs backend
+#  - libaio - Oracle Instant Client dependency
+#  - git, tar, unzip - Packages required for working with git repositories and
+#    compressed zip resources
+#  - openssl, openssl-devel, ca-certificates, nss - Ensure SSL libraries and
+#    CA certificates are up to date for SSL certificate verification
+#  - @Development tools, expat-devel - Perl project build dependencies
+RUN yum install -y \
+    yum-plugin-ovl \
+    unzip \
+    libaio \
+    git \
+    tar \
+    openssl \
+    openssl-devel \
+    expat-devel \
+    "@Development tools" \
+    && yum update -y \
+    ca-certificates \
+    nss \
+    && yum clean all
 
 # Copy AWS CLI team public key for signature verification
 COPY aws-cli-team.pub /root/aws-cli-team.pub
@@ -39,28 +53,12 @@ RUN unzip /root/aws-cli.zip -d /root && \
 
 RUN rm -rf /root/aws*
 
-# Install Oracle Instant Client and dependencies
-RUN yum -y install libaio
-
 RUN tmp_dir=$(mktemp -d /tmp/oracleclient.XXX) && \
     aws2 s3 cp s3://resources.ch.gov.uk/packages/oracle/oracle-instantclient11.2-basic-11.2.0.4.0-1.x86_64.rpm ${tmp_dir} && \
     rpm -i ${tmp_dir}/oracle-instantclient11.2-basic-11.2.0.4.0-1.x86_64.rpm && \
     rm -rf ${tmp_dir}
 
 ENV ORACLE_HOME /usr/lib/oracle/11.2/client64
-
-# Install Perl build tools and dependencies
-RUN yum -y install git
-
-RUN yum -y install tar
-
-RUN yum -y install openssl openssl-devel
-
-RUN yum -y install expat-devel
-
-RUN yum -y install "@Development tools"
-
-RUN yum clean all
 
 # Install GoPAN
 ADD https://github.com/companieshouse/gopan/releases/download/${gopan_tag_version}/gopan-${gopan_version}-linux_amd64.tar.gz /gopan-${gopan_version}-linux_amd64.tar.gz
