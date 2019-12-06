@@ -44,21 +44,24 @@ ADD https://d1vvhvl2y92vvt.cloudfront.net/awscli-exe-linux-x86_64.zip /root/aws-
 ADD https://d1vvhvl2y92vvt.cloudfront.net/awscli-exe-linux-x86_64.zip.sig /root/aws-cli.zip.sig
 
 # Verify signature of AWS CLI package
-RUN gpg --import /root/aws-cli-team.pub
-RUN gpg --verify /root/aws-cli.zip.sig /root/aws-cli.zip
+RUN gpg --import /root/aws-cli-team.pub && \
+    gpg --verify /root/aws-cli.zip.sig /root/aws-cli.zip
 
 # Install AWS CLI
 RUN unzip /root/aws-cli.zip -d /root && \
-    /root/aws/install
+    /root/aws/install && \
+    rm -rf /root/aws*
 
-RUN rm -rf /root/aws*
-
+# Install Oracle Instant Client and sqlplus as a dependency of DBD::Oracle
 RUN tmp_dir=$(mktemp -d /tmp/oracleclient.XXX) && \
     aws2 s3 cp s3://resources.ch.gov.uk/packages/oracle/oracle-instantclient11.2-basic-11.2.0.4.0-1.x86_64.rpm ${tmp_dir} && \
+    aws2 s3 cp s3://resources.ch.gov.uk/packages/oracle/oracle-instantclient11.2-sqlplus-11.2.0.4.0-1.x86_64.rpm ${tmp_dir} && \
     rpm -i ${tmp_dir}/oracle-instantclient11.2-basic-11.2.0.4.0-1.x86_64.rpm && \
+    rpm -i ${tmp_dir}/oracle-instantclient11.2-sqlplus-11.2.0.4.0-1.x86_64.rpm && \
     rm -rf ${tmp_dir}
 
-ENV ORACLE_HOME /usr/lib/oracle/11.2/client64
+ENV ORACLE_HOME "/usr/lib/oracle/11.2/client64"
+ENV PATH "/usr/lib/oracle/11.2/client64/bin:${PATH}"
 
 # Install GoPAN
 ADD https://github.com/companieshouse/gopan/releases/download/${gopan_tag_version}/gopan-${gopan_version}-linux_amd64.tar.gz /gopan-${gopan_version}-linux_amd64.tar.gz
