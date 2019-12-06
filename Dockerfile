@@ -29,7 +29,7 @@ COPY aws-cli-team.pub /root/aws-cli-team.pub
 ADD https://d1vvhvl2y92vvt.cloudfront.net/awscli-exe-linux-x86_64.zip /root/aws-cli.zip
 ADD https://d1vvhvl2y92vvt.cloudfront.net/awscli-exe-linux-x86_64.zip.sig /root/aws-cli.zip.sig
 
-# Install GPG and verify signature of AWS CLI package
+# Verify signature of AWS CLI package
 RUN gpg --import /root/aws-cli-team.pub
 
 # Verify package signature
