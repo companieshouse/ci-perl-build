@@ -55,7 +55,9 @@ RUN rm -rf /root/aws*
 
 RUN tmp_dir=$(mktemp -d /tmp/oracleclient.XXX) && \
     aws2 s3 cp s3://resources.ch.gov.uk/packages/oracle/oracle-instantclient11.2-basic-11.2.0.4.0-1.x86_64.rpm ${tmp_dir} && \
+    aws2 s3 cp s3://resources.ch.gov.uk/packages/oracle/oracle-instantclient11.2-sqlplus-11.2.0.4.0-1.x86_64.rpm ${tmp_dir} && \
     rpm -i ${tmp_dir}/oracle-instantclient11.2-basic-11.2.0.4.0-1.x86_64.rpm && \
+    rpm -i ${tmp_dir}/oracle-instantclient11.2-sqlplus-11.2.0.4.0-1.x86_64.rpm && \
     rm -rf ${tmp_dir}
 
 ENV ORACLE_HOME /usr/lib/oracle/11.2/client64
