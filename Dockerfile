@@ -60,7 +60,8 @@ RUN tmp_dir=$(mktemp -d /tmp/oracleclient.XXX) && \
     rpm -i ${tmp_dir}/oracle-instantclient11.2-sqlplus-11.2.0.4.0-1.x86_64.rpm && \
     rm -rf ${tmp_dir}
 
-ENV ORACLE_HOME /usr/lib/oracle/11.2/client64
+ENV ORACLE_HOME "/usr/lib/oracle/11.2/client64"
+ENV PATH "/usr/lib/oracle/11.2/client64/bin:${PATH}"
 
 # Install GoPAN
 ADD https://github.com/companieshouse/gopan/releases/download/${gopan_tag_version}/gopan-${gopan_version}-linux_amd64.tar.gz /gopan-${gopan_version}-linux_amd64.tar.gz
