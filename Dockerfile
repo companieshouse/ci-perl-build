@@ -44,8 +44,8 @@ ADD https://d1vvhvl2y92vvt.cloudfront.net/awscli-exe-linux-x86_64.zip /root/aws-
 ADD https://d1vvhvl2y92vvt.cloudfront.net/awscli-exe-linux-x86_64.zip.sig /root/aws-cli.zip.sig
 
 # Verify signature of AWS CLI package
-RUN gpg --import /root/aws-cli-team.pub
-RUN gpg --verify /root/aws-cli.zip.sig /root/aws-cli.zip
+RUN gpg --import /root/aws-cli-team.pub && \
+    gpg --verify /root/aws-cli.zip.sig /root/aws-cli.zip
 
 # Install AWS CLI
 RUN unzip /root/aws-cli.zip -d /root && \
