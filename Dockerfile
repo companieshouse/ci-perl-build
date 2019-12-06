@@ -8,7 +8,7 @@ ARG perl_version=5.18.2
 ARG perl_build_args=-Dusethreads
 
 ARG gopan_version=0.12
-ARG gopan_tag_version=v0.12
+ARG gopan_tag_version=v${gopan_version}
 
 ARG AWS_ACCESS_KEY_ID
 ARG AWS_SECRET_ACCESS_KEY
