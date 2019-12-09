@@ -18,7 +18,7 @@ The following list details the distribution-managed packages installed in the co
 
 | Name                  | Purpose                                                                                                                |
 |-----------------------|------------------------------------------------------------------------------------------------------------------------|
-| `yum-plugin-ovl`      | Requied to allow the distribution package manager `yum` to function correctly with the Docker OverlayFS storage driver |
+| `yum-plugin-ovl`      | Required to allow the distribution package manager `yum` to function correctly with the Docker OverlayFS storage driver |
 | `libaio`              | Required dependency of Oracle Instant Client                                                                           |
 | `git`, `tar`, `unzip` | Required for retrieving git repositories and handling `.zip` and `.tar.gz` files during the image build                |
 | `expat-devel`, `@Development tools` | Required for building Perl services using the resulting image                                            |
@@ -29,5 +29,5 @@ In addition to the distribution-managed packages detailed above, the following t
 | Name                  | Version      | Purpose                                                                                           |
 |-----------------------|--------------|---------------------------------------------------------------------------------------------------|
 | AWS CLI               | `2.0.0dev2`  | Used to retrieve non distribution-managed packages from the S3 resources bucket under our control |
-| Oracle Instant Client | `11.2.0.4.0` | Required dependency of the `DBD::Oracle` Perl module used by [chs-backend](https://github.com/companieshouse/chs-backend); comprises three `.rpm` files: `oracle-instantclient11.2-basic-11.2.0.4.0-1.x86_64.rpm`, `oracle-instantclient11.2-sqlplus-11.2.0.4.0-1.x86_64.rpm` and `oracle-instantclient11.2-devel-11.2.0.4.0-1.x86_64.rpm` |
+| Oracle Instant Client | `11.2.0.4.0` | Required dependency of the `DBD::Oracle` Perl module used by [chs-backend](https://github.com/companieshouse/chs-backend); comprises three `.rpm` files:<br>- `oracle-instantclient11.2-basic-11.2.0.4.0-1.x86_64.rpm`<br>- `oracle-instantclient11.2-sqlplus-11.2.0.4.0-1.x86_64.rpm`<br>- `oracle-instantclient11.2-devel-11.2.0.4.0-1.x86_64.rpm` |
 
