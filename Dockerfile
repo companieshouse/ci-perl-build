@@ -11,7 +11,7 @@ ARG gopan_version=0.12
 ARG gopan_tag_version=v${gopan_version}
 
 ARG nvm_version=v0.33.11
-ARG node_js_version=10
+ARG node_js_version=v10.17.0
 ARG grunt_version=v1.2.0
 
 ARG AWS_ACCESS_KEY_ID
@@ -86,6 +86,8 @@ RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/${nvm_version}/install
     nvm install ${node_js_version} && \
     npm config set prefix /usr/local && \
     npm install -g grunt-cli@${grunt_version}
+
+ENV PATH /root/.nvm/versions/node/${node_js_version}/bin:$PATH
 
 # Install plenv and Perl Build
 RUN git clone https://github.com/tokuhirom/plenv.git ${plenv_root}
