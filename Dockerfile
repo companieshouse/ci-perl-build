@@ -60,7 +60,8 @@ RUN tmp_dir=$(mktemp -d /tmp/oracleclient.XXX) && \
     rpm -i ${tmp_dir}/oracle-instantclient11.2-basic-11.2.0.4.0-1.x86_64.rpm && \
     rpm -i ${tmp_dir}/oracle-instantclient11.2-sqlplus-11.2.0.4.0-1.x86_64.rpm && \
     rpm -i ${tmp_dir}/oracle-instantclient11.2-devel-11.2.0.4.0-1.x86_64.rpm && \
-    rm -rf ${tmp_dir}
+    rm -rf ${tmp_dir} && \
+    ln -s /usr/local/bin/aws2 /usr/local/bin/aws
 
 ENV ORACLE_HOME "/usr/lib/oracle/11.2/client64"
 ENV PATH "/usr/lib/oracle/11.2/client64/bin:${PATH}"
