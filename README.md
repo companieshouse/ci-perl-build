@@ -1,6 +1,6 @@
 # ci-perl-build
 
-A docker configuration for Perl-based CI builds, suitable for building both CHS services and dependency packages (i.e. prepackaged `.zip` files) for those services.
+A Docker configuration for Perl-based CI builds suitable for building both CHS services and dependency packages (i.e. prepackaged `.zip` files) for those services.
 
 ## Build Tools
 
