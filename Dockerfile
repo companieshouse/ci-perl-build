@@ -79,14 +79,12 @@ RUN tar -C /usr/local/bin -xzf /gopan-${gopan_version}-linux_amd64.tar.gz
 
 RUN rm -f /gopan-${gopan_version}-linux_amd64.tar.gz
 
-# Install Node.js using NVM (TOFIX: building the container image locally may fail here due to a self-signed
-# SSL certificate injected by the corporate proxy when install.sh attempts to clone GitHub repositories)
+# Install Node.js (using NVM) and Grunt (TOFIX: building the container image locally may fail here due to a
+# self-signed SSL certificate injected by the corporate proxy when install.sh attempts to clone repositories)
 RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/${nvm_version}/install.sh | bash && \
     \. /root/.nvm/nvm.sh && \
-    nvm install ${node_js_version}
-
-# Install Grunt
-RUN npm install grunt@${grunt_version}
+    nvm install ${node_js_version} && \
+    npm install grunt@${grunt_version}
 
 # Install plenv and Perl Build
 RUN git clone https://github.com/tokuhirom/plenv.git ${plenv_root}
