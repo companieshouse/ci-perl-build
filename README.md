@@ -21,7 +21,7 @@ The following list details the distribution-managed packages installed in the co
 | `yum-plugin-ovl`      | Required to allow the distribution package manager `yum` to function correctly with the Docker OverlayFS storage driver |
 | `libaio`              | Required dependency of Oracle Instant Client                                                                           |
 | `git`, `tar`, `unzip` | Required for retrieving git repositories and handling `.zip` and `.tar.gz` files during the image build                |
-| `expat-devel`, `@Development tools` | Required for building Perl services using the resulting image                                            |
+| `expat-devel`, `@Development tools` | Required when building Perl services in the resulting image                                              |
 | `openssl`, `openssl-devel`, `ca-certificates`, `nss` | SSL libraries used by multiple tools in the image; CA certificate updates are required to support the latest SSL certificates used by some of the domains accessed during the image build |
 
 In addition to the distribution-managed packages detailed above, the following tools are also installed:
