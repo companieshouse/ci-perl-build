@@ -84,7 +84,7 @@ RUN rm -f /gopan-${gopan_version}-linux_amd64.tar.gz
 RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/${nvm_version}/install.sh | bash && \
     \. /root/.nvm/nvm.sh && \
     nvm install ${node_js_version} && \
-    npm install grunt@${grunt_version}
+    npm install grunt-cli@${grunt_version}
 
 # Install plenv and Perl Build
 RUN git clone https://github.com/tokuhirom/plenv.git ${plenv_root}
