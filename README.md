@@ -24,7 +24,7 @@ The following list details the distribution-managed packages installed in the co
 | `curl`                | Required for installing NVM                                                                                             |
 | `expat-devel`, `@Development tools` | Required when building Perl services in the resulting image                                               |
 | `openssl`, `openssl-devel`, `ca-certificates`, `nss` | SSL libraries used by multiple tools in the image; CA certificate updates are required to support the latest SSL certificates used by some of the domains accessed during the image build |
-| `sclo-git25` via Software Collections (SCL) Repository |
+| `sclo-git25` via Software Collections (SCL) Repository | Used to install a more recent version of Git than available via `yum`; required by NVM install script to ensure Git supports latest CA certificates for SSL enabled domains (i.e. GitHub) |
 
 In addition to the distribution-managed packages detailed above, the following tools are also installed:
 
@@ -33,6 +33,6 @@ In addition to the distribution-managed packages detailed above, the following t
 | AWS CLI                    | `2.0.0dev2`  | Used to retrieve non distribution-managed packages from the S3 resources bucket under our control |
 | Oracle Instant Client      | `11.2.0.4.0` | Required dependency of the `DBD::Oracle` Perl module used by [chs-backend](https://github.com/companieshouse/chs-backend); comprises three `.rpm` files:<br>- `oracle-instantclient11.2-basic-11.2.0.4.0-1.x86_64.rpm`<br>- `oracle-instantclient11.2-sqlplus-11.2.0.4.0-1.x86_64.rpm`<br>- `oracle-instantclient11.2-devel-11.2.0.4.0-1.x86_64.rpm`                        |
 | Node Version Manager (NVM) | `v0.33.11`   | Required to install Node.js (see below)                                                           |
-| Node.js                    | `10`         | Requirement of [developer.ch.gov.uk](https://github.com/companieshouse/developer.ch.gov.uk) service build |
-| Grunt                      | `1.2.0`      | Requirement of [developer.ch.gov.uk](https://github.com/companieshouse/developer.ch.gov.uk) service build |
+| Node.js                    | `v10.17.0`   | Requirement of [developer.ch.gov.uk](https://github.com/companieshouse/developer.ch.gov.uk) service build |
+| Grunt                      | `v1.2.0`     | Requirement of [developer.ch.gov.uk](https://github.com/companieshouse/developer.ch.gov.uk) service build |
 
