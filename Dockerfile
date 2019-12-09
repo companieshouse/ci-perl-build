@@ -12,7 +12,7 @@ ARG gopan_tag_version=v${gopan_version}
 
 ARG nvm_version=v0.33.11
 ARG node_js_version=10
-ARG grunt_version=1.2.0
+ARG grunt_version=v1.2.0
 
 ARG AWS_ACCESS_KEY_ID
 ARG AWS_SECRET_ACCESS_KEY
