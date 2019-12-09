@@ -84,7 +84,6 @@ RUN rm -f /gopan-${gopan_version}-linux_amd64.tar.gz
 RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/${nvm_version}/install.sh | bash && \
     \. /root/.nvm/nvm.sh && \
     nvm install ${node_js_version} && \
-    npm config set prefix /usr/local && \
     npm install -g grunt-cli@${grunt_version}
 
 ENV PATH /root/.nvm/versions/node/${node_js_version}/bin:$PATH
