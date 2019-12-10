@@ -89,7 +89,7 @@ RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/${nvm_version}/install
 ENV PATH /root/.nvm/versions/node/${node_js_version}/bin:$PATH
 
 # Install plenv and Perl Build
-RUN git clone https://github.com/tokuhirom/plenv.git ${plenv_root}
+RUN mkdir -p ${plenv_root} && git clone https://github.com/tokuhirom/plenv.git ${plenv_root}
 
 RUN cd ${plenv_root} && git checkout ${plenv_version}
 
@@ -109,8 +109,6 @@ RUN plenv rehash
 RUN echo 'eval "$(plenv init -)"' >> ~/.bashrc
 
 RUN mkdir -p /opt/plenv/versions/${perl_version}/bin
-
-RUN ln -s /root/.plenv/shims/perl${perl_version} /opt/plenv/versions/${perl_version}/bin/perl${perl_version}
 
 RUN bash -c "PERL_CPANM_OPT='--notest' PLENV_INSTALL_CPANM=' ' ${plenv_root}/bin/plenv install-cpanm"
 
