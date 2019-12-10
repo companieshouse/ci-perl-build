@@ -108,8 +108,6 @@ RUN plenv rehash
 
 RUN echo 'eval "$(plenv init -)"' >> ~/.bashrc
 
-RUN mkdir -p /opt/plenv/versions/${perl_version}/bin
-
 RUN bash -c "PERL_CPANM_OPT='--notest' PLENV_INSTALL_CPANM=' ' ${plenv_root}/bin/plenv install-cpanm"
 
 # Set system timezone
