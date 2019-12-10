@@ -1,6 +1,6 @@
 FROM centos:centos6.6
 
-ARG plenv_root=/root/.plenv
+ARG plenv_root=/opt/.plenv
 ARG plenv_version=2.2.0
 ARG plenv_perlbuild_version=1.13
 
