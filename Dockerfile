@@ -100,6 +100,8 @@ RUN cd ${plenv_root}/plugins/perl-build && git checkout ${plenv_perlbuild_versio
 ENV PATH ${plenv_root}/bin:${plenv_root}/plugins/perl-build/bin:$PATH
 
 # Install Perl
+ENV PLENV_ROOT=${plenv_root}
+
 RUN plenv install ${perl_version} ${perl_build_args}
 
 RUN plenv global ${perl_version}
