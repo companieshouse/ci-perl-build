@@ -10,23 +10,21 @@ ARG perl_build_args=-Dusethreads
 ARG gopan_version=0.12
 ARG gopan_tag_version=v${gopan_version}
 
+ARG nvm_version=v0.33.11
+ARG node_js_version=v10.17.0
+ARG grunt_version=v1.2.0
+
 ARG AWS_ACCESS_KEY_ID
 ARG AWS_SECRET_ACCESS_KEY
 
-# Install required package dependencies:
-#  - yum-plugin-ovl - ensure yum functions correctly with Overlayfs backend
-#  - libaio - Oracle Instant Client dependency
-#  - git, tar, unzip - Packages required for working with git repositories and
-#    compressed zip resources
-#  - openssl, openssl-devel, ca-certificates, nss - Ensure SSL libraries and
-#    CA certificates are up to date for SSL certificate verification
-#  - @Development tools, expat-devel - Perl project build dependencies
+# Install distribution-managed package dependencies
 RUN yum install -y \
     yum-plugin-ovl \
+    which \
     unzip \
     libaio \
-    git \
     tar \
+    curl \
     openssl \
     openssl-devel \
     expat-devel \
@@ -35,6 +33,13 @@ RUN yum install -y \
     ca-certificates \
     nss \
     && yum clean all
+
+# Enable Software Collections (SCL) Repository for access to more recent version of git than via yum
+RUN yum -y remove git && \
+    yum -y install centos-release-scl && \
+    yum -y install sclo-git25
+
+ENV PATH "/opt/rh/sclo-git25/root/usr/bin:${PATH}"
 
 # Copy AWS CLI team public key for signature verification
 COPY aws-cli-team.pub /root/aws-cli-team.pub
@@ -73,6 +78,15 @@ ADD https://github.com/companieshouse/gopan/releases/download/${gopan_tag_versio
 RUN tar -C /usr/local/bin -xzf /gopan-${gopan_version}-linux_amd64.tar.gz
 
 RUN rm -f /gopan-${gopan_version}-linux_amd64.tar.gz
+
+# Install Node.js (using NVM) and Grunt (TOFIX: building the container image locally may fail here due to a
+# self-signed SSL certificate injected by the corporate proxy when install.sh attempts to clone repositories)
+RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/${nvm_version}/install.sh | bash && \
+    \. /root/.nvm/nvm.sh && \
+    nvm install ${node_js_version} && \
+    npm install -g grunt-cli@${grunt_version}
+
+ENV PATH /root/.nvm/versions/node/${node_js_version}/bin:$PATH
 
 # Install plenv and Perl Build
 RUN git clone https://github.com/tokuhirom/plenv.git ${plenv_root}
