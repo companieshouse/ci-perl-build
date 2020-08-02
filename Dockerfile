@@ -79,8 +79,8 @@ RUN tar -C /usr/local/bin -xzf /gopan-${gopan_version}-linux_amd64.tar.gz
 
 RUN rm -f /gopan-${gopan_version}-linux_amd64.tar.gz
 
-# Install Node.js (using NVM) and Grunt (TOFIX: building the container image locally may fail here due to a
-# self-signed SSL certificate injected by the corporate proxy when install.sh attempts to clone repositories)
+# Install Node.js (using NVM) and Grunt (TOFIX: building the container image locally may fail here due to the
+# use of a corporate CA certificate injected by the proxy when install.sh attempts to clone repositories)
 RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/${nvm_version}/install.sh | bash && \
     \. /root/.nvm/nvm.sh && \
     nvm install ${node_js_version} && \
