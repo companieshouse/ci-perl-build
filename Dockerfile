@@ -41,32 +41,22 @@ RUN yum -y remove git && \
 
 ENV PATH "/opt/rh/sclo-git25/root/usr/bin:${PATH}"
 
-# Copy AWS CLI team public key for signature verification
-COPY aws-cli-team.pub /root/aws-cli-team.pub
-
-# Retrieve AWS CLI and associated signature file
-ADD https://d1vvhvl2y92vvt.cloudfront.net/awscli-exe-linux-x86_64.zip /root/aws-cli.zip
-ADD https://d1vvhvl2y92vvt.cloudfront.net/awscli-exe-linux-x86_64.zip.sig /root/aws-cli.zip.sig
-
-# Verify signature of AWS CLI package
-RUN gpg --import /root/aws-cli-team.pub && \
-    gpg --verify /root/aws-cli.zip.sig /root/aws-cli.zip
-
-# Install AWS CLI
-RUN unzip /root/aws-cli.zip -d /root && \
-    /root/aws/install && \
-    rm -rf /root/aws*
+# Install AWS CLI v2
+RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" && \
+    unzip awscliv2.zip && \
+    ./aws/install && \
+    rm -rf ./aws && \
+    rm -f awscliv2.zip
 
 # Install Oracle Instant Client and sqlplus as a dependency of DBD::Oracle
 RUN tmp_dir=$(mktemp -d /tmp/oracleclient.XXX) && \
-    aws2 s3 cp s3://resources.ch.gov.uk/packages/oracle/oracle-instantclient11.2-basic-11.2.0.4.0-1.x86_64.rpm ${tmp_dir} && \
-    aws2 s3 cp s3://resources.ch.gov.uk/packages/oracle/oracle-instantclient11.2-sqlplus-11.2.0.4.0-1.x86_64.rpm ${tmp_dir} && \
-    aws2 s3 cp s3://resources.ch.gov.uk/packages/oracle/oracle-instantclient11.2-devel-11.2.0.4.0-1.x86_64.rpm ${tmp_dir} && \
+    aws s3 cp s3://resources.ch.gov.uk/packages/oracle/oracle-instantclient11.2-basic-11.2.0.4.0-1.x86_64.rpm ${tmp_dir} && \
+    aws s3 cp s3://resources.ch.gov.uk/packages/oracle/oracle-instantclient11.2-sqlplus-11.2.0.4.0-1.x86_64.rpm ${tmp_dir} && \
+    aws s3 cp s3://resources.ch.gov.uk/packages/oracle/oracle-instantclient11.2-devel-11.2.0.4.0-1.x86_64.rpm ${tmp_dir} && \
     rpm -i ${tmp_dir}/oracle-instantclient11.2-basic-11.2.0.4.0-1.x86_64.rpm && \
     rpm -i ${tmp_dir}/oracle-instantclient11.2-sqlplus-11.2.0.4.0-1.x86_64.rpm && \
     rpm -i ${tmp_dir}/oracle-instantclient11.2-devel-11.2.0.4.0-1.x86_64.rpm && \
-    rm -rf ${tmp_dir} && \
-    ln -s /usr/local/bin/aws2 /usr/local/bin/aws
+    rm -rf ${tmp_dir}
 
 ENV ORACLE_HOME "/usr/lib/oracle/11.2/client64"
 ENV PATH "/usr/lib/oracle/11.2/client64/bin:${PATH}"
@@ -114,4 +104,3 @@ RUN bash -c "PERL_CPANM_OPT='--notest' PLENV_INSTALL_CPANM=' ' ${plenv_root}/bin
 
 # Set system timezone
 RUN unlink /etc/localtime && ln -s /usr/share/zoneinfo/Europe/London /etc/localtime
-
