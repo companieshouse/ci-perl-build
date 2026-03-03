@@ -1,5 +1,8 @@
 # ci-perl-build
 
+> [!IMPORTANT]
+> This repository has been archived and is no longer used. It is no longer possible to build the container image without substantial workarounds that bypass or disable critical security mechanisms. CI/CD pipeline tasks based on the [perl/5.18.2](https://github.com/companieshouse/ci-concourse-resources/tree/master/tasks/perl/5.18.2) task files will continue to use the last generated container image for the foreseeable future, until such a time as dependent services are migrated away from Perl 5.18.2.
+
 A Docker configuration for Perl-based CI builds suitable for building both CHS services and dependency packages (i.e. prepackaged `.zip` files) for those services.
 
 ## Build Tools
